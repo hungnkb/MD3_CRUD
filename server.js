@@ -9,6 +9,7 @@ const server = http.createServer((req, res) => {
     let id = qs.parse(getUrl.query).id
     switch (getUrl.pathname) {
         case '/products':
+        case '/':
             handlers.showProducts(req, res);
             break;
         case '/addItem':
@@ -19,7 +20,7 @@ const server = http.createServer((req, res) => {
             };
             break;
         case '/delete':
-            handlers.delete(id ,req, res);
+            handlers.delete(id, req, res);
             break;
         case '/edit':
             if (req.method == 'GET') {
@@ -27,7 +28,6 @@ const server = http.createServer((req, res) => {
             } else {
                 handlers.edit(id, req, res);
             };
-           
             break;
         default:
             res.end('home')

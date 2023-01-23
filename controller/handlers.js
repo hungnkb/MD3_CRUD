@@ -54,7 +54,6 @@ handlers.addItem = (req, res) => {
                         maxId = i.id;
                     }
                 }
-                console.log(maxId)
                 newItem.id = maxId + 1;
                 itemList.push(newItem);
                 fs.writeFile('./data/data.json', JSON.stringify(itemList), err => {
