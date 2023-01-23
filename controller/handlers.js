@@ -69,7 +69,6 @@ handlers.addItem = (req, res) => {
     })
 }
 
-
 handlers.showAddItemPage = (req, res) => {
     fs.readFile('./views/additem.html', 'utf-8', (err, data) => {
         if (err) {
@@ -112,11 +111,26 @@ handlers.delete = (idDelete, req, res) => {
 }
 
 handlers.showEditItemPage = (id, req, res) => {
-    fs.readFile('./views/editItem.html', 'utf-8', (err, data) => {
+    fs.readFile('./views/editItem.html', 'utf-8', (err, dataEditItemPageHtml) => {
         if (err) {
             console.log(err.message);
         } else {
-            res.end(data)
+            fs.readFile('./data/data.json', (err, data) => {
+                if (err) {
+                    console.log(err.message);
+                } else {
+                    itemList = JSON.parse(data);
+                    let index = -1;
+                    for (let i in itemList) {
+                        if (itemList[i].id == id) {
+                            index = i;
+                        }
+                    }
+                    dataEditItemPageHtml = dataEditItemPageHtml.replace('{$default-item-name}', itemList[index].name);
+                    dataEditItemPageHtml = dataEditItemPageHtml.replace('{$default-item-price}', itemList[index].price);
+                    res.end(dataEditItemPageHtml)
+                }
+            })
         }
     })
 }
@@ -151,9 +165,9 @@ handlers.edit = (idEdit, req, res) => {
                     }
                 })
             }
-        })   
+        })
     })
-    
+
 }
 
 module.exports = {
